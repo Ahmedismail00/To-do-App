@@ -4,8 +4,11 @@ import mongoose from 'mongoose';
 import helmet from "helmet";
 import compression from "compression";
 import cors from "cors";
+import router from "./routes/index.js";
 
-mongoose.connect(config.mongo.url, { retryWrites: true, w: 'majority' })
+dotenv.config();
+
+mongoose.connect(process.env.MONGO_URL, { retryWrites: true, w: 'majority' })
   .then(() => {
       console.log(`Running on ENV = ${process.env.NODE_ENV}`);
       console.log('Connected to mongoDB.');
@@ -23,7 +26,10 @@ const startServer = async ()=>{
     app.use(helmet());
     app.use(compression());
     app.use(cors());
+    app.use(express.urlencoded({ extended: false }));
     app.use(express.json());
 
-    await app.listen(3000);
+    app.use(router)
+
+    await app.listen(process.env.APP_PORT);
 }
