@@ -1,5 +1,17 @@
 import TodoModel from '../models/todo.js';
 
+export const getAll = async (req, res) => {
+    try {
+        const todos = await TodoModel.find().populate('user');
+        res.json(todos);
+    }
+    catch (err) {
+        res.status(500).json({
+            message: err.message
+        });
+    }
+}
+
 export const create = async (req, res) => {
     try {
         const doc = new TodoModel({

@@ -18,6 +18,7 @@ router.post('/register',registerValidation,validationErrorsHandler,UserControlle
 router.post('/login',loginValidation,validationErrorsHandler,UserController.login);
 
 router.use(authMiddleware);
+router.get('/todos',TodoController.getAll)
 router.post('/todo',addTodoValidation,validationErrorsHandler,TodoController.create)
 router.patch('/todo',updateTodoValidation,validationErrorsHandler,TodoController.update)
 router.delete('/todo',deleteTodoValidation,validationErrorsHandler,TodoController.remove)
